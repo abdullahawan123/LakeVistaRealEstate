@@ -77,7 +77,7 @@ We are committed to protect your privacy within the society. We constantly revie
                         isChecked = value! ;
                       });
                     }),
-                const Expanded(child: Text('I have read and understood all the Rules\nand Regulations accompanying this form along with attached COST OF LAND\nPAYMENT SCHEDULE and I hereby agree to abide by these TERMS AND CONDITIONS existing and of future of Lake Vista as well as all laws and by-laws and rules and regulations of Local Administration.',
+                const Expanded(child: Text('I have read and understood all the Rules and Regulations accompanying this form along with attached COST OF LAND PAYMENT SCHEDULE and I hereby agree to abide by these TERMS AND CONDITIONS existing and of future of Lake Vista as well as all laws and by-laws and rules and regulations of Local Administration.',
                 style: TextStyle(
                   fontFamily: 'Montserrat',
                   fontWeight: FontWeight.w300,

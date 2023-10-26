@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:lakevistaapp/screen_interfaces/upload_docs.dart';
 
-class FormScreen extends StatelessWidget {
+class FormScreen extends StatefulWidget {
   final String sizeOfPlot ;
   final bool isChecked ;
   const FormScreen({Key? key, required this.sizeOfPlot, this.isChecked = true}) : super(key: key);
+
+  @override
+  State<FormScreen> createState() => _FormScreenState();
+}
+
+class _FormScreenState extends State<FormScreen> {
+  PropertySelection? _selection = PropertySelection.residential;
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +54,13 @@ class FormScreen extends StatelessWidget {
                   children: [
                     Checkbox(
                       checkColor: Colors.white,
-                      value: isChecked,
+                      value: widget.isChecked,
                       onChanged: (bool? value) {
                         //In this case the checkbox is always checked, so no need to assign any value.
                       },
                     ),
                     Text(
-                      sizeOfPlot,
+                      widget.sizeOfPlot,
                       style: const TextStyle(
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w600,
@@ -62,7 +69,40 @@ class FormScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 10),
+                const Text(
+                  'Property Selection:',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                  ),
+                ),
+                const SizedBox(height: 3,),
+                ListTile(
+                  title: const Text('Residential'),
+                  leading: Radio<PropertySelection>(
+                    value: PropertySelection.residential,
+                    groupValue: _selection,
+                    onChanged: (PropertySelection? value){
+                      setState(() {
+                        _selection = value ;
+                      });
+                    },
+                  ),
+                ),
+                ListTile(
+                  title: const Text('Commercial'),
+                  leading: Radio<PropertySelection>(
+                    value: PropertySelection.commercial,
+                    groupValue: _selection,
+                    onChanged: (PropertySelection? value){
+                      setState(() {
+                        _selection = value ;
+                      });
+                    },
+                  ),
+                ),
                 const Text(
                   'PERSONAL INFORMATION',
                   style: TextStyle(
@@ -217,3 +257,5 @@ class FormScreen extends StatelessWidget {
     );
   }
 }
+
+enum PropertySelection { residential, commercial }
