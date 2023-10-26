@@ -11,8 +11,7 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
-  bool isResidential = false ;
-  bool isCommercial = false ;
+  PropertySelection? _selection = PropertySelection.residential;
 
   @override
   Widget build(BuildContext context) {
@@ -79,39 +78,31 @@ class _FormScreenState extends State<FormScreen> {
                     fontSize: 20,
                   ),
                 ),
-                const SizedBox(height: 7,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Checkbox(
-                      checkColor: Colors.white,
-                        value: isResidential,
-                        onChanged: (bool? value){
+                const SizedBox(height: 3,),
+                ListTile(
+                  title: const Text('Residential'),
+                  leading: Radio<PropertySelection>(
+                    value: PropertySelection.residential,
+                    groupValue: _selection,
+                    onChanged: (PropertySelection? value){
                       setState(() {
-                        isResidential = value! ;
+                        _selection = value ;
                       });
-                    }),
-                    const Text('Residential', style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 15,
-                    ),),
-                    Checkbox(
-                        checkColor: Colors.white,
-                        value: isCommercial,
-                        onChanged: (bool? value){
-                      setState(() {
-                        isCommercial = value! ;
-                      });
-                    }),
-                    const Text('Commercial', style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontWeight: FontWeight.w400,
-                      fontSize: 15,
-                    ),),
-                  ],
+                    },
+                  ),
                 ),
-                const SizedBox(height: 16),
+                ListTile(
+                  title: const Text('Commercial'),
+                  leading: Radio<PropertySelection>(
+                    value: PropertySelection.commercial,
+                    groupValue: _selection,
+                    onChanged: (PropertySelection? value){
+                      setState(() {
+                        _selection = value ;
+                      });
+                    },
+                  ),
+                ),
                 const Text(
                   'PERSONAL INFORMATION',
                   style: TextStyle(
@@ -266,3 +257,5 @@ class _FormScreenState extends State<FormScreen> {
     );
   }
 }
+
+enum PropertySelection { residential, commercial }

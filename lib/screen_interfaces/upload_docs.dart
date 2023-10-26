@@ -171,24 +171,44 @@ class _UploadDocumentState extends State<UploadDocument> {
         ),
         Expanded(
           flex: 1,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: selectedFiles[label] != null
-                ? const Icon(
-              Icons.check_circle,
-              color: Colors.green,
-            )
-                : TextButton(
-              onPressed: () {
-                _selectFile(label);
-              },
-              child: const Text('Select'),
-            ),
+          child: Row(
+            children: [
+              if (selectedFiles[label] != null)
+                Row(
+                  children: [
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Icon(
+                        Icons.check_circle,
+                        color: Colors.green,
+                      ),
+                    ),
+                    const SizedBox(width: 25,),
+                    IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.red),
+                      onPressed: () {
+                        setState(() {
+                          selectedFiles[label] = null;
+                        });
+                      },
+                    ),
+                  ],
+                )
+              else
+                TextButton(
+                  onPressed: () {
+                    _selectFile(label);
+                  },
+                  child: const Text('Select'),
+                ),
+              const SizedBox(width: 5),
+            ],
           ),
         ),
       ],
     );
   }
+
 
   void goBack(){
     Navigator.of(context).pop();
