@@ -86,7 +86,7 @@ class _UploadDocumentState extends State<UploadDocument> {
                           foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
                         ),
                         child: const Text(
-                          'Next',
+                          'Upload',
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.w400,

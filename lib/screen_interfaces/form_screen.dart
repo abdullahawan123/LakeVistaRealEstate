@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:lakevistaapp/screen_interfaces/upload_docs.dart';
 
-class FormScreen extends StatelessWidget {
+class FormScreen extends StatefulWidget {
   final String sizeOfPlot ;
   final bool isChecked ;
   const FormScreen({Key? key, required this.sizeOfPlot, this.isChecked = true}) : super(key: key);
+
+  @override
+  State<FormScreen> createState() => _FormScreenState();
+}
+
+class _FormScreenState extends State<FormScreen> {
+  bool isResidential = false ;
+  bool isCommercial = false ;
 
   @override
   Widget build(BuildContext context) {
@@ -47,19 +55,60 @@ class FormScreen extends StatelessWidget {
                   children: [
                     Checkbox(
                       checkColor: Colors.white,
-                      value: isChecked,
+                      value: widget.isChecked,
                       onChanged: (bool? value) {
                         //In this case the checkbox is always checked, so no need to assign any value.
                       },
                     ),
                     Text(
-                      sizeOfPlot,
+                      widget.sizeOfPlot,
                       style: const TextStyle(
                         fontFamily: 'Montserrat',
                         fontWeight: FontWeight.w600,
                         fontSize: 20,
                       ),
                     ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  'Property Selection:',
+                  style: TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                  ),
+                ),
+                const SizedBox(height: 7,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Checkbox(
+                      checkColor: Colors.white,
+                        value: isResidential,
+                        onChanged: (bool? value){
+                      setState(() {
+                        isResidential = value! ;
+                      });
+                    }),
+                    const Text('Residential', style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                    ),),
+                    Checkbox(
+                        checkColor: Colors.white,
+                        value: isCommercial,
+                        onChanged: (bool? value){
+                      setState(() {
+                        isCommercial = value! ;
+                      });
+                    }),
+                    const Text('Commercial', style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15,
+                    ),),
                   ],
                 ),
                 const SizedBox(height: 16),
