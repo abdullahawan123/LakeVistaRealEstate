@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lakevistaapp/screen_interfaces/book_a_plot.dart';
 import 'package:lakevistaapp/screen_interfaces/upload_docs.dart';
 
 class FormScreen extends StatefulWidget {
@@ -57,6 +58,7 @@ class _FormScreenState extends State<FormScreen> {
                       value: widget.isChecked,
                       onChanged: (bool? value) {
                         //In this case the checkbox is always checked, so no need to assign any value.
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const BookAPlot()));
                       },
                     ),
                     Text(

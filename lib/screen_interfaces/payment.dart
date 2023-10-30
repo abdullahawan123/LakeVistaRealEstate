@@ -109,7 +109,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
         child: TextFormField(
           keyboardType: TextInputType.number,
           cursorColor: Colors.green,
-          obscureText: true,
           style: const TextStyle(
             fontFamily: 'Montserrat',
             fontWeight: FontWeight.w400,
