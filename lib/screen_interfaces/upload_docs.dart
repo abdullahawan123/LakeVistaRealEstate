@@ -36,12 +36,15 @@ class _UploadDocumentState extends State<UploadDocument> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Center(
-                      child: Image.asset(
-                        'assets/logo.png',
-                        fit: BoxFit.fill,
-                        height: 100,
-                        width: 250,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 70),
+                      child: Center(
+                        child: Image.asset(
+                          'assets/logo.png',
+                          fit: BoxFit.fill,
+                          height: 100,
+                          width: 250,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20),
