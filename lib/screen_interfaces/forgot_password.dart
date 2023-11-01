@@ -87,7 +87,7 @@ class ForgotPassword extends StatelessWidget {
                     ElevatedButton(onPressed: (){},
                         style: ButtonStyle(
                           foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                          backgroundColor: MaterialStateProperty.all(Colors.green),
+                          backgroundColor: MaterialStateProperty.all<Color>(Colors.green),
                         ),
                       child: const Text('Reset Password',
                         style: TextStyle(

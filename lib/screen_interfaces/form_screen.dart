@@ -4,36 +4,22 @@ import 'package:lakevistaapp/screen_interfaces/book_a_plot.dart';
 import 'package:lakevistaapp/screen_interfaces/upload_docs.dart';
 import 'package:provider/provider.dart';
 
-class FormScreen extends StatelessWidget {
+enum PropertySelection { residential, commercial }
+
+class FormScreen extends StatefulWidget {
   final String sizeOfPlot;
   final bool isChecked;
 
   const FormScreen({Key? key, required this.sizeOfPlot, this.isChecked = true}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => FormRadioButtonProvider(),
-      child: _FormScreenContent(sizeOfPlot: sizeOfPlot, isChecked: isChecked),
-    );
-  }
+  State<FormScreen> createState() => _FormScreenState();
 }
 
-class _FormScreenContent extends StatefulWidget {
-  final String sizeOfPlot;
-  final bool isChecked;
-
-  const _FormScreenContent({required this.sizeOfPlot, this.isChecked = true});
-
-  @override
-  State<_FormScreenContent> createState() => _FormScreenState();
-}
-
-class _FormScreenState extends State<_FormScreenContent> {
+class _FormScreenState extends State<FormScreen> {
   @override
   Widget build(BuildContext context) {
     final radioBtnProvider = Provider.of<FormRadioButtonProvider>(context);
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -75,7 +61,7 @@ class _FormScreenState extends State<_FormScreenContent> {
                       checkColor: Colors.white,
                       value: widget.isChecked,
                       onChanged: (bool? value) {
-                        //In this case the checkbox is always checked, so no need to assign any value.
+                        // In this case, the checkbox is always checked, so no need to assign any value.
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const BookAPlot()));
                       },
                     ),
@@ -278,5 +264,3 @@ class _FormScreenState extends State<_FormScreenContent> {
     );
   }
 }
-
-enum PropertySelection { residential, commercial }

@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lakevistaapp/provider/upload_doc_selection.dart';
 import 'package:lakevistaapp/screen_interfaces/term_and_condition.dart';
+import 'package:provider/provider.dart';
 
 class UploadDocument extends StatefulWidget {
-  const UploadDocument({super.key});
+  const UploadDocument({Key? key}) : super(key: key);
 
   @override
   State<UploadDocument> createState() => _UploadDocumentState();
 }
 
 class _UploadDocumentState extends State<UploadDocument> {
-  Map<String, String?> selectedFiles = {
-    'Recent Passport\nSize Photograph:': null,
-    'Applicant CNIC:': null,
-    'Nominee CNIC:': null,
-  };
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +33,7 @@ class _UploadDocumentState extends State<UploadDocument> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 70),
+                      padding: const EdgeInsets.only(top: 40),
                       child: Center(
                         child: Image.asset(
                           'assets/logo.png',
@@ -108,7 +104,9 @@ class _UploadDocumentState extends State<UploadDocument> {
     );
   }
 
-  Future<void> _selectFile(String label) async {
+  void _selectFile(String label) async {
+    final uploadDocProvider = context.read<UploadDocSelectionProvider>(); // Use context.read
+
     final imagePicker = ImagePicker();
 
     showDialog(
@@ -127,9 +125,7 @@ class _UploadDocumentState extends State<UploadDocument> {
                       imageQuality: 80,
                     );
                     if (imageFile != null) {
-                      setState(() {
-                        selectedFiles[label] = imageFile.name;
-                      });
+                      uploadDocProvider.selectFile(label, imageFile.name);
                     }
                     goBack();
                   },
@@ -142,9 +138,7 @@ class _UploadDocumentState extends State<UploadDocument> {
                       imageQuality: 80,
                     );
                     if (imageFile != null) {
-                      setState(() {
-                        selectedFiles[label] = imageFile.name;
-                      });
+                      uploadDocProvider.selectFile(label, imageFile.name);
                     }
                     goBack();
                   },
@@ -158,6 +152,7 @@ class _UploadDocumentState extends State<UploadDocument> {
   }
 
   Widget buildDocumentSelectionRow({required String label}) {
+    final uploadDocProvider = context.watch<UploadDocSelectionProvider>(); // Use context.watch
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -176,7 +171,7 @@ class _UploadDocumentState extends State<UploadDocument> {
           flex: 1,
           child: Row(
             children: [
-              if (selectedFiles[label] != null)
+              if (uploadDocProvider.selectedFiles[label] != null)
                 Row(
                   children: [
                     const Align(
@@ -190,9 +185,7 @@ class _UploadDocumentState extends State<UploadDocument> {
                     IconButton(
                       icon: const Icon(Icons.delete, color: Colors.red),
                       onPressed: () {
-                        setState(() {
-                          selectedFiles[label] = null;
-                        });
+                        uploadDocProvider.removeFile(label);
                       },
                     ),
                   ],
@@ -212,8 +205,7 @@ class _UploadDocumentState extends State<UploadDocument> {
     );
   }
 
-
-  void goBack(){
+  void goBack() {
     Navigator.of(context).pop();
   }
 }
