@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:lakevistaapp/provider/form_radiobutton.dart';
 import 'package:lakevistaapp/screen_interfaces/book_a_plot.dart';
 import 'package:lakevistaapp/screen_interfaces/upload_docs.dart';
+import 'package:provider/provider.dart';
+
+enum PropertySelection { residential, commercial }
 
 class FormScreen extends StatefulWidget {
-  final String sizeOfPlot ;
-  final bool isChecked ;
+  final String sizeOfPlot;
+  final bool isChecked;
+
   const FormScreen({Key? key, required this.sizeOfPlot, this.isChecked = true}) : super(key: key);
 
   @override
@@ -12,10 +17,9 @@ class FormScreen extends StatefulWidget {
 }
 
 class _FormScreenState extends State<FormScreen> {
-  PropertySelection? _selection = PropertySelection.residential;
-
   @override
   Widget build(BuildContext context) {
+    final radioBtnProvider = Provider.of<FormRadioButtonProvider>(context);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -57,7 +61,7 @@ class _FormScreenState extends State<FormScreen> {
                       checkColor: Colors.white,
                       value: widget.isChecked,
                       onChanged: (bool? value) {
-                        //In this case the checkbox is always checked, so no need to assign any value.
+                        // In this case, the checkbox is always checked, so no need to assign any value.
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const BookAPlot()));
                       },
                     ),
@@ -85,11 +89,11 @@ class _FormScreenState extends State<FormScreen> {
                   title: const Text('Residential'),
                   leading: Radio<PropertySelection>(
                     value: PropertySelection.residential,
-                    groupValue: _selection,
-                    onChanged: (PropertySelection? value){
-                      setState(() {
-                        _selection = value ;
-                      });
+                    groupValue: radioBtnProvider.selection,
+                    onChanged: (PropertySelection? value) {
+                      if (value != null) {
+                        radioBtnProvider.setSelection(value);
+                      }
                     },
                   ),
                 ),
@@ -97,14 +101,15 @@ class _FormScreenState extends State<FormScreen> {
                   title: const Text('Commercial'),
                   leading: Radio<PropertySelection>(
                     value: PropertySelection.commercial,
-                    groupValue: _selection,
-                    onChanged: (PropertySelection? value){
-                      setState(() {
-                        _selection = value ;
-                      });
+                    groupValue: radioBtnProvider.selection,
+                    onChanged: (PropertySelection? value) {
+                      if (value != null) {
+                        radioBtnProvider.setSelection(value);
+                      }
                     },
                   ),
                 ),
+
                 const Text(
                   'PERSONAL INFORMATION',
                   style: TextStyle(
@@ -259,5 +264,3 @@ class _FormScreenState extends State<FormScreen> {
     );
   }
 }
-
-enum PropertySelection { residential, commercial }

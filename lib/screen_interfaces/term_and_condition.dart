@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lakevistaapp/provider/term_checkbox.dart';
 import 'package:lakevistaapp/screen_interfaces/payment.dart';
+import 'package:provider/provider.dart';
 
 class TermAndConditionScreen extends StatefulWidget {
   const TermAndConditionScreen({super.key});
@@ -9,7 +11,6 @@ class TermAndConditionScreen extends StatefulWidget {
 }
 
 class _TermAndConditionScreenState extends State<TermAndConditionScreen> {
-  bool isChecked = false ;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,14 +70,16 @@ We are committed to protect your privacy within the society. We constantly revie
             const SizedBox(height: 7,),
             Row(
               children: [
-                Checkbox(
-                  checkColor: Colors.white,
-                    value: isChecked,
-                    onChanged: (bool? value){
-                      setState(() {
-                        isChecked = value! ;
-                      });
-                    }),
+                Consumer<TermCheckBoxProvider>(
+                    builder: (context, checkBoxProvider, child){
+                      return Checkbox(
+                          checkColor: Colors.white,
+                          value: checkBoxProvider.isCheck,
+                          onChanged: (bool? value){
+                            checkBoxProvider.selectCheckBox(value!);
+                          });
+                    }
+                ),
                 const Expanded(child: Text('I have read and understood all the Rules and Regulations accompanying this form along with attached COST OF LAND PAYMENT SCHEDULE and I hereby agree to abide by these TERMS AND CONDITIONS existing and of future of Lake Vista as well as all laws and by-laws and rules and regulations of Local Administration.',
                 style: TextStyle(
                   fontFamily: 'Montserrat',

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lakevistaapp/screen_interfaces/book_a_plot.dart';
 import 'package:lakevistaapp/screen_interfaces/create_account.dart';
+import 'package:lakevistaapp/screen_interfaces/forgot_password.dart';
 import 'package:lakevistaapp/screen_interfaces/home_screen.dart';
 
 class AuthenticationScreen extends StatelessWidget {
@@ -113,23 +114,7 @@ class AuthenticationScreen extends StatelessWidget {
                   const SizedBox(height: 30),
                   GestureDetector(
                     onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text('Warning!'),
-                            content: const Text('This service is not available yet!'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text('Close'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgotPassword()));
                     },
                     child: const Text('FORGOT PASSWORD?',
                       style: TextStyle(
