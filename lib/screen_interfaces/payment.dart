@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lakevistaapp/provider/payment_radiobutton.dart';
+import 'package:provider/provider.dart';
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({Key? key}) : super(key: key);
@@ -15,7 +17,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background Image
           Center(
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(Colors.white70.withOpacity(.9), BlendMode.lighten),
@@ -81,15 +82,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Widget buildPaymentOption(String option, String label) {
     return Row(
       children: [
-        Radio(
-          value: option,
-          groupValue: selectedPaymentOption,
-          onChanged: (value) {
-            setState(() {
-              selectedPaymentOption = value as String;
-            });
-          },
-        ),
+        Consumer<PaymentMethodProvider>(builder: (context, provider, child){
+          return Radio(
+            value: option,
+            groupValue: provider.option,
+            onChanged: (value) {
+              provider.selectedOption(value!);
+            },
+          );
+        }),
         Text(
           label,
           style: const TextStyle(
@@ -103,7 +104,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget buildPaymentFields() {
-    if (selectedPaymentOption == 'easypaisa' || selectedPaymentOption == 'jazzcash') {
+    final paymentProvider = Provider.of<PaymentMethodProvider>(context, listen: true);
+    if (paymentProvider.option == 'easypaisa' || paymentProvider.option == 'jazzcash') {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 50),
         child: TextFormField(
@@ -134,7 +136,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
         ),
       );
-    } else if (selectedPaymentOption == 'bank') {
+    } else if (paymentProvider.option == 'bank') {
       return Column(
         children: [
           Padding(

@@ -105,8 +105,6 @@ class _UploadDocumentState extends State<UploadDocument> {
   }
 
   void _selectFile(String label) async {
-    final uploadDocProvider = context.read<UploadDocSelectionProvider>(); // Use context.read
-
     final imagePicker = ImagePicker();
 
     showDialog(
@@ -117,32 +115,36 @@ class _UploadDocumentState extends State<UploadDocument> {
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                ListTile(
-                  title: const Text('Camera'),
-                  onTap: () async {
-                    final XFile? imageFile = await imagePicker.pickImage(
-                      source: ImageSource.camera,
-                      imageQuality: 80,
-                    );
-                    if (imageFile != null) {
-                      uploadDocProvider.selectFile(label, imageFile.name);
-                    }
-                    goBack();
-                  },
-                ),
-                ListTile(
-                  title: const Text('Gallery'),
-                  onTap: () async {
-                    final XFile? imageFile = await imagePicker.pickImage(
-                      source: ImageSource.gallery,
-                      imageQuality: 80,
-                    );
-                    if (imageFile != null) {
-                      uploadDocProvider.selectFile(label, imageFile.name);
-                    }
-                    goBack();
-                  },
-                ),
+                Consumer<UploadDocSelectionProvider>(builder: (context, value, child){
+                  return ListTile(
+                    title: const Text('Camera'),
+                    onTap: () async {
+                      final XFile? imageFile = await imagePicker.pickImage(
+                        source: ImageSource.camera,
+                        imageQuality: 80,
+                      );
+                      if (imageFile != null) {
+                        value.selectFile(label, imageFile.name);
+                      }
+                      goBack();
+                    },
+                  );
+                }),
+                Consumer<UploadDocSelectionProvider>(builder: (context, value, child){
+                  return ListTile(
+                    title: const Text('Gallery'),
+                    onTap: () async {
+                      final XFile? imageFile = await imagePicker.pickImage(
+                        source: ImageSource.gallery,
+                        imageQuality: 80,
+                      );
+                      if (imageFile != null) {
+                        value.selectFile(label, imageFile.name);
+                      }
+                      goBack();
+                    },
+                  );
+                }),
               ],
             ),
           ),
@@ -152,7 +154,6 @@ class _UploadDocumentState extends State<UploadDocument> {
   }
 
   Widget buildDocumentSelectionRow({required String label}) {
-    final uploadDocProvider = context.watch<UploadDocSelectionProvider>(); // Use context.watch
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
@@ -169,37 +170,39 @@ class _UploadDocumentState extends State<UploadDocument> {
         ),
         Expanded(
           flex: 1,
-          child: Row(
-            children: [
-              if (uploadDocProvider.selectedFiles[label] != null)
-                Row(
-                  children: [
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Icon(
-                        Icons.check_circle,
-                        color: Colors.green,
+          child: Consumer<UploadDocSelectionProvider>(builder: (context, value, child){
+            return Row(
+              children: [
+                if (value.selectedFiles[label] != null)
+                  Row(
+                    children: [
+                      const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Icon(
+                          Icons.check_circle,
+                          color: Colors.green,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 25,),
-                    IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () {
-                        uploadDocProvider.removeFile(label);
-                      },
-                    ),
-                  ],
-                )
-              else
-                TextButton(
-                  onPressed: () {
-                    _selectFile(label);
-                  },
-                  child: const Text('Select'),
-                ),
-              const SizedBox(width: 5),
-            ],
-          ),
+                      const SizedBox(width: 25,),
+                      IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () {
+                          value.removeFile(label);
+                        },
+                      ),
+                    ],
+                  )
+                else
+                  TextButton(
+                    onPressed: () {
+                      _selectFile(label);
+                    },
+                    child: const Text('Select'),
+                  ),
+                const SizedBox(width: 5),
+              ],
+            );
+          })
         ),
       ],
     );

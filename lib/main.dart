@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lakevistaapp/provider/payment_radiobutton.dart';
 import 'package:lakevistaapp/provider/splash_screen_countdown.dart';
 import 'package:lakevistaapp/provider/form_radiobutton.dart';
 import 'package:lakevistaapp/provider/term_checkbox.dart';
@@ -21,12 +22,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FormRadioButtonProvider()),
         ChangeNotifierProvider(create: (_) => UploadDocSelectionProvider()),
         ChangeNotifierProvider(create: (_) => TermCheckBoxProvider()),
+        ChangeNotifierProvider(create: (_) => PaymentMethodProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF14471A)),
-          // The useMaterial3 flag should be set to false for standard Material Design.
           useMaterial3: true,
         ),
         home: const SplashScreen(),
